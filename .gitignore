@@ -38,3 +38,10 @@ obj/
 ehthumbs.db
 Icon?
 Thumbs.db
+# C++ Stuff#
+############
+*.ilk
+*.tlog
+*.sdf
+*.obj
+*.ipch
