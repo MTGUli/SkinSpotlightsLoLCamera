@@ -47,9 +47,4 @@
       <Filter>LUA</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SkinSpotlightsLoLCamera1.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
 </Project>

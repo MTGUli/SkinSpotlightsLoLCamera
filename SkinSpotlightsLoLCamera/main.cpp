@@ -16,8 +16,6 @@
 	#pragma comment( lib, "..\\Release\\LUAPlus.lib")
 #endif
 
-#include "resource1.h"
-
 LuaPlus::LuaState* pState;
 LuaPlus::LuaObject globals;
 char pPath[ MAX_PATH ];
