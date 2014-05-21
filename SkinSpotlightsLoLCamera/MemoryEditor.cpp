@@ -55,7 +55,8 @@ unsigned __stdcall MemoryEditor::FindGame(const char* GameName){
 		CloseHandle(hSnapshot);
 
 		//ENTRY = BASE + OFFSET;
-		ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xF3\x0F\x10\x05\x00\x00\x00\x00\xF3\x0F\x11\x56\x04\xF3\x0F\x11\x46\x2C", "xxxx????xxxxxxxxxx");
+		//ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xF3\x0F\x10\x05\x00\x00\x00\x00\xF3\x0F\x11\x56\x04\xF3\x0F\x11\x46\x2C", "xxxx????xxxxxxxxxx");
+		ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xA1\x00\x00\x00\x00\x83\xC4\x14\x8B\x00\x8B\x0D\x00\x00\x00\x00\xD9\x80\x00\x00\x00\x00", "x????xxxxxxx????xx????");
 
 		if(ENTRY == 0){
 			//Error The Pattern is out of date
@@ -63,14 +64,21 @@ unsigned __stdcall MemoryEditor::FindGame(const char* GameName){
 			//return 1;
 		}
 
-		ENTRY = ENTRY + 0x04; //Move off by 4 to get the actual address offset
-		DWORD MemAddr= ReadMemDword(ENTRY, hProc);
-		FoVAddr = MemAddr;
+		ENTRY = ENTRY + 0x01; //Move off by 4 to get the actual address offset
+		//DWORD MemAddr= ReadMemDword(ENTRY, hProc);
+		DWORD MemAddr = ReadMemDword(ENTRY, hProc);
+		MemAddr = ReadMemDword(MemAddr, hProc);
+
+		/*FoVAddr = MemAddr;
 		YRotationAddr = MemAddr - 0x04;
-		XRotationAddr = MemAddr - 0x08;
+		XRotationAddr = MemAddr - 0x08;*/
+
+		FoVAddr = ReadMemDword(MemAddr, hProc) + 0x130;
+		YRotationAddr = FoVAddr - 0x0C;
+		XRotationAddr = FoVAddr - 0x10;
 
 		//ENTRY = BASE + OFFSET;
-		ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xF3\x0F\x11\x0D\x00\x00\x00\x00\xF3\x0F\x11\x1D\x00\x00\x00\x00\xF3\x0F\x11\x25\x00\x00\x00\x00", "xxxx????xxxx????xxxx????");
+		//ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xF3\x0F\x11\x0D\x00\x00\x00\x00\xF3\x0F\x11\x1D\x00\x00\x00\x00\xF3\x0F\x11\x25\x00\x00\x00\x00", "xxxx????xxxx????xxxx????");
 		
 		if(ENTRY == 0){
 			//Error The Pattern is out of date
@@ -84,15 +92,18 @@ unsigned __stdcall MemoryEditor::FindGame(const char* GameName){
 			return 1;
 		}
 
-		ENTRY = ENTRY + 0x04; //Move off by 4 to get the actual address offset
-		MemAddr = 0;
-		MemAddr = ReadMemDword(ENTRY, hProc);
+		//ENTRY = ENTRY + 0x04; //Move off by 4 to get the actual address offset
+		//MemAddr = 0;
+		//MemAddr = ReadMemDword(ENTRY, hProc);
 
-		XPositionAddr = MemAddr /*- 0x04*/;
-		YPositionAddr = MemAddr + 0x08;
+		//XPositionAddr = MemAddr /*- 0x04*/;
+		//YPositionAddr = MemAddr + 0x08;
+
+		XPositionAddr =  ReadMemDword(MemAddr, hProc) + 0x104;
+		YPositionAddr = XPositionAddr + 0x08;
 
 		//ENTRY = BASE + OFFSET;
-		ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00", "xx????????x????xx????");
+		ENTRY = dwFindPattern(hProc, BASE, SIZE, (BYTE *)"\xC7\x87\x00\x00\x00\x00\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x8B\x87\x00\x00\x00\x00\x8D\x8F\x00\x00\x00\x00\x89\x45\xCC", "xx????????x????xx????xx????xxx");
 		
 		if(ENTRY == 0){
 			//Error The Pattern is out of date
