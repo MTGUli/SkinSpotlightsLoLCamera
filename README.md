@@ -1,9 +1,9 @@
 SkinSpotlightsLoLCamera
 =======================
 
-Custom LoL Camera created in order to attempt to prove my Spotlight videos over at youtube.com/SkinSpotlights
+Custom LoL Camera created in order to improve my Spotlight videos over at youtube.com/SkinSpotlights
 
-To contact me, message me through youtube or message me through my Business Inquiries Email, located in the about page of my youtube channel.
+To contact me, message me through youtube or message me through my Business Inquiries Email, that is located in the about page of my youtube channel.
 
 
 Hotkeys:
